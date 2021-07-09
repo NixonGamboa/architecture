@@ -29,6 +29,6 @@ const animalsMock = [
   },
 ];
 
-module.exports ={
-    animalsMock
-}
+module.exports = {
+  animalsMock,
+};

@@ -1,24 +1,41 @@
+const { query } = require('express');
+const MongoLib = require('../lib/mongo');
 const { animalsMock } = require('../utils/mocks/animals');
 
 class AnimalsService {
-  async getAnimals() {
-    const animals = await Promise.resolve(animalsMock);
+  constructor() {
+    this.collection = 'animals';
+    this.repository = new MongoLib();
+  }
+  async getAnimals({ tags }) {
+    const query = tags && { tags: { $in: tags } };
+    const animals = await this.repository.getAll(this.collection, query);
     return animals || [];
   }
-  async getAnimalById() {
-    const animal = await Promise.resolve(animalsMock[0]);
+  async getAnimalById({ animalId }) {
+    const animal = await this.repository.getById(this.collection, animalId);
     return animal || [];
   }
-  async createAnimal() {
-    const createdAnimalId = await Promise.resolve(animalsMock[0].id);
+  async createAnimal({ animal }) {
+    const createdAnimalId = await this.repository.create(
+      this.collection,
+      animal
+    );
     return createdAnimalId;
   }
-  async updateAnimal() {
-    const updatedAnimal = await Promise.resolve(animalsMock[0].id);
+  async updateAnimal({ animalId, animal } = {}) {
+    const updatedAnimal = await this.repository.update(
+      this.collection,
+      animalId,
+      animal
+    );
     return updatedAnimal;
   }
-  async deleteAnimal() {
-    const deletedAnimalId = await Promise.resolve(animalsMock[0].id);
+  async deleteAnimal({ animalId }) {
+    const deletedAnimalId = await this.repository.delete(
+      this.collection,
+      animalId
+    );
     return deletedAnimalId;
   }
 }
