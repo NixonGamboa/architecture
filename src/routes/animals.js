@@ -11,6 +11,7 @@ function animalsApi(app) {
     const { tags } = req.query;
     try {
       const animals = await animalsService.getAnimals({ tags });
+      throw new Error('error obteniendo animales');
       res.status(200).json({
         data: animals,
         message: 'animals listed',

@@ -1,6 +1,5 @@
 const { query } = require('express');
 const MongoLib = require('../lib/mongo');
-const { animalsMock } = require('../mocks/animals');
 
 class AnimalsService {
   constructor() {
