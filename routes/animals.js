@@ -1,13 +1,16 @@
 const express = require('express');
-const { animalsMock } = require("../utils/mocks/animals");
+const AnimalsService = require('../services/animals');
 
 function animalsApi(app) {
   const router = express.Router();
   app.use('/api/animals', router);
 
+  const animalsService = new AnimalsService();
+
   router.get('/', async (req, res, next) => {
+    const { tags } = req.query;
     try {
-      const animals = await Promise.resolve(animalsMock);
+      const animals = await animalsService.getAnimals({ tags });
       res.status(200).json({
         data: animals,
         message: 'animals listed',
@@ -17,8 +20,9 @@ function animalsApi(app) {
     }
   });
   router.get('/:animalId', async (req, res, next) => {
+    const { animalId } = req.params;
     try {
-      const animal = await Promise.resolve(animalsMock[0]);
+      const animal = await animalsService.getAnimalById({ animalId });
       res.status(200).json({
         data: animal,
         message: 'animal retrived',
@@ -28,8 +32,9 @@ function animalsApi(app) {
     }
   });
   router.post('/', async (req, res, next) => {
+    const { body: animal } = req;
     try {
-      const createdAnimalId = await Promise.resolve(animalsMock[0].id);
+      const createdAnimalId = await animalsService.createAnimal({ animal });
       res.status(201).json({
         data: createdAnimalId,
         message: 'animal created',
@@ -39,8 +44,13 @@ function animalsApi(app) {
     }
   });
   router.put('/:animalId', async (req, res, next) => {
+    const { animalId } = req.params;
+    const { body: animal } = req;
     try {
-      const updatedAnimalId = await Promise.resolve(animalsMock[0].id);
+      const updatedAnimalId = await animalsService.updateAnimal({
+        animalId,
+        animal,
+      });
       res.status(200).json({
         data: updatedAnimalId,
         message: 'animal updated',
@@ -50,8 +60,9 @@ function animalsApi(app) {
     }
   });
   router.delete('/:animalId', async (req, res, next) => {
+    const { animalId } = req.params;
     try {
-      const deletedAnimalId = await Promise.resolve(animalsMock[0].id);
+      const deletedAnimalId = await animalsService.deleteAnimal({ animalId });
       res.status(200).json({
         data: deletedAnimalId,
         message: 'animal deleted',
@@ -60,6 +71,5 @@ function animalsApi(app) {
       next(err);
     }
   });
-
 }
 module.exports = animalsApi;
