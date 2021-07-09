@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const { config } = require('../config/index');
+const { config } = require('../../config/index');
 
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
