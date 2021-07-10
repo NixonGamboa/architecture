@@ -8,7 +8,7 @@ function validate(data, schema) {
 function validationHandler(schema, check = 'body') {
   return (req, res, next) => {
     const error = validate(req[check], schema);
-    error ? nextcc(new Error(error)) : next();
+    error ? next(new Error(error)) : next();
   };
 }
 

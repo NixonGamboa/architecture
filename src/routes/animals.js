@@ -1,5 +1,5 @@
 const express = require('express');
-const AnimalsService = require('../services/animals');
+const animalsService = require('../services/animals');
 
 const {
   animalIdSchema,
@@ -11,7 +11,6 @@ function animalsApi(app) {
   const router = express.Router();
   app.use('/api/animals', router);
 
-  const animalsService = new AnimalsService();
 
   router.get('/', async (req, res, next) => {
     const { tags } = req.query;

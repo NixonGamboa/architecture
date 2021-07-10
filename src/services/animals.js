@@ -1,42 +1,41 @@
 const { query } = require('express');
-const MongoLib = require('../lib/mongo');
+const repository = require('../lib/mongo');
 
-class AnimalsService {
-  constructor() {
-    this.collection = 'animals';
-    this.repository = new MongoLib();
-  }
-  async getAnimals({ tags }) {
-    const query = tags && { tags: { $in: tags } };
-    const animals = await this.repository.getAll(this.collection, query);
-    return animals || [];
-  }
-  async getAnimalById({ animalId }) {
-    const animal = await this.repository.getById(this.collection, animalId);
-    return animal || [];
-  }
-  async createAnimal({ animal }) {
-    const createdAnimalId = await this.repository.create(
-      this.collection,
-      animal
-    );
-    return createdAnimalId;
-  }
-  async updateAnimal({ animalId, animal } = {}) {
-    const updatedAnimal = await this.repository.update(
-      this.collection,
-      animalId,
-      animal
-    );
-    return updatedAnimal;
-  }
-  async deleteAnimal({ animalId }) {
-    const deletedAnimalId = await this.repository.delete(
-      this.collection,
-      animalId
-    );
-    return deletedAnimalId;
-  }
+const collection = 'animals';
+
+async function getAnimals({ tags }) {
+  const query = tags && { tags: { $in: tags } };
+  const animals = await repository.getAll(collection, query);
+  return animals || [];
 }
-
-module.exports = AnimalsService;
+async function getAnimalById({ animalId }) {
+  const animal = await repository.getById(collection, animalId);
+  return animal || [];
+}
+async function createAnimal({ animal }) {
+  const createdAnimalId = await repository.create(collection, animal);
+  return createdAnimalId;
+}
+async function updateAnimal({ animalId, animal } = {}) {
+  const updatedAnimal = await repository.update(
+    collection,
+    animalId,
+    animal
+  );
+  return updatedAnimal;
+}
+async function deleteAnimal({ animalId }) {
+  const deletedAnimalId = await repository.remove(
+    collection,
+    animalId
+  );
+  return deletedAnimalId;
+}
+const animalsService={
+  getAnimals,
+  getAnimalById,
+  createAnimal,
+  updateAnimal,
+  deleteAnimal
+};
+module.exports = animalsService;
