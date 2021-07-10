@@ -54,12 +54,21 @@ class MongoLib {
       })
       .then((result) => result.upsertedId || id);
   }
-  delete(collection, id) {
+  async delete(collection, id) {
+    const exist = await this.getById(collection, id);
+    if (!exist) {
+      throw new Error("The animal hasn't been registered");
+    }
     return this.connect()
       .then((db) => {
         return db.collection(collection).deleteOne({ _id: ObjectId(id) });
       })
       .then(() => id);
+  }
+  drop(collection) {
+    return this.connect().then((db) => {
+      return db.collection(collection).drop();
+    });
   }
 }
 module.exports = MongoLib;
