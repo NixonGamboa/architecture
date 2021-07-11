@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "6766f526-9042-485e-b117-ff265d45355d",
+		"name": "RetoNodeApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET animals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Aprovar ingles\",\r\n    \"completed\" : true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{uri}}/api/animals",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE animal",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{uri}}/api/animals/60e7f15a3c568f2688b0a091",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"60e7f15a3c568f2688b0a091"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT animal",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"specie\":\"cerdo\",\r\n    \"isVaccinated\":false,\r\n    \"gender\":\"female\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{uri}}/api/animals/60e7f15a3c568f2688b0a091",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"60e7f15a3c568f2688b0a091"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST animal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"specie\":\"bull\",\r\n    \"color\":\"white & back\",\r\n    \"isVaccinated\":false,\r\n    \"gender\":\"\",\r\n    \"anotherField\": \"text for another field\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{uri}}/api/animals",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET animal by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{uri}}/api/animals/id/60e9e060621aa812c87f8398",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"id",
+						"60e9e060621aa812c87f8398"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH vaccinate animal",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isVaccinated\":true\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{uri}}/api/animals/60e9e060621aa812c87f8398/vaccinate",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"60e9e060621aa812c87f8398",
+						"vaccinate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET animals by pasture",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{uri}}/api/animals/by-pasture",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"by-pasture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET list vaccinate by pasture",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{uri}}/api/animals/is-vaccinated/?value=true",
+					"host": [
+						"{{uri}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"is-vaccinated",
+						""
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": "true"
+						}
+					]
+				},
+				"description": "you can add tag ?value=false for obtain not vaccinated, default is true"
+			},
+			"response": []
+		}
+	]
+}
