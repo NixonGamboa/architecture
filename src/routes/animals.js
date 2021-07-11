@@ -132,7 +132,7 @@ function animalsApi(app) {
       const animals = await animalsService.vaccinatedAnimalsList({ tags });
       res.status(200).json({
         data: animals,
-        message: 'animals listed',
+        message: 'animals vaccinated listed',
       });
     } catch (err) {
       next(err);

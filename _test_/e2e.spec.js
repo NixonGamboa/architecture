@@ -19,10 +19,25 @@ const animalsMock = [
   },
   {
     specie: 'Brangus',
-    color: 'black',
+    color: 'black and withe',
     isVaccinated: false,
     gender: 'female',
     pastureId: 1,
+  },
+  {
+    specie: 'Brngus',
+    color: 'blck',
+    isVaccinated: false,
+    gender: 'femle',
+    pastureId: 2,
+  },
+
+  {
+    specie: 'horse',
+    color: 'brown',
+    isVaccinated: true,
+    gender: 'male',
+    pastureId: 2,
   },
 ];
 
@@ -35,7 +50,7 @@ describe('animals API', () => {
       return status < 500;
     };
   });
-  afterAll(async () => {
+  afterEach(async () => {
     return await repository.drop('animals');
   });
 
@@ -59,7 +74,6 @@ describe('animals API', () => {
     it(
       'GET get all animals successfully',
       async () => {
-        await repository.drop('animals');
         const animalOne = animalsMock[0];
         const animalTwo = animalsMock[1];
         animals = [animalOne, animalTwo];
@@ -86,17 +100,13 @@ describe('animals API', () => {
       },
       time
     );
+
     it(
       'GET get an animal by id successfully',
       async () => {
-        const animal = {
-          specie: 'horse',
-          color: 'brown',
-          isVaccinated: true,
-          gender: 'male',
-        };
+        const animal = animalsMock[1];
         const idCreated = await repository.create(collection, animal);
-        const response = await axios.get('/' + idCreated);
+        const response = await axios.get('/id/' + idCreated);
         const returnedData = response.data;
         expect(response.status).toBe(200);
         expect(returnedData.message).toBe('animal retrived');
@@ -112,18 +122,8 @@ describe('animals API', () => {
       'PUT update an animal successfully',
       async () => {
         //arrange
-        const outdatedAnimal = {
-          specie: 'Brngus',
-          color: 'blck',
-          isVaccinated: false,
-          gender: 'femle',
-        };
-        const updatedAnimal = {
-          specie: 'Brangus',
-          color: 'black',
-          isVaccinated: false,
-          gender: 'female',
-        };
+        const outdatedAnimal = animalsMock[0];
+        const updatedAnimal = animalsMock[3];
         const responseId = await repository.create(collection, outdatedAnimal);
         //act
         const response = await axios.put(
@@ -145,19 +145,13 @@ describe('animals API', () => {
       'DELETE remove an animal from db successfully',
       async () => {
         //arrange
-        const animal = {
-          specie: 'horse',
-          color: 'brown',
-          isVaccinated: true,
-          gender: 'male',
-        };
+        const animal = animalsMock[3];
         const idCreated = await repository.create(collection, animal);
         //act
         const response = await axios.delete('/' + idCreated);
         const returnedData = response.data;
         //asserts
         const animalDeleted = await repository.getById(collection, idCreated);
-        console.log(animalDeleted);
         expect(response.status).toBe(200);
         expect(returnedData.message).toBe('animal deleted');
         expect(returnedData.dataId).toMatch(/^[0-9a-fA-F]{24}$/);
@@ -170,16 +164,15 @@ describe('animals API', () => {
       'PATCH update vaccinate an animal successfully',
       async () => {
         //arrange
-        const outdatedAnimal = {
-          specie: 'Bon',
-          color: 'withe and black',
-          isVaccinated: false,
-          gender: 'female',
-        };
+        const outdatedAnimal = animalsMock[1];
+        const whitoutVaccinate = { ...outdatedAnimal, isVaccinated: false };
         const toUpdate = {
           isVaccinated: true,
         };
-        const responseId = await repository.create(collection, outdatedAnimal);
+        const responseId = await repository.create(
+          collection,
+          whitoutVaccinate
+        );
         //act
         const response = await axios.patch(
           '/' + responseId + '/vaccinate',
@@ -189,9 +182,51 @@ describe('animals API', () => {
         //asserts
         const fromDb = await repository.getById(collection, returnedId);
         expect(response.status).toBe(200);
-        expect(response.data.message).toBe('animal updated');
+        expect(response.data.message).toBe('vaccinated updated');
         expect(response.data.dataId).toMatch(/^[0-9a-fA-F]{24}$/);
-        expect(fromDb).toBe();
+        expect(fromDb.isVaccinated).toBe(toUpdate.isVaccinated);
+      },
+      time
+    );
+    it(
+      'GET get animals by pasture successfully',
+      async () => {
+        //arrange
+        animals = animalsMock;
+        const pasturesIdsalls = animals.map((animal) => animal.pastureId);
+        const pasturesIds = [...new Set(pasturesIdsalls)];
+        await repository.createMany(collection, animals);
+        //act
+        const response = await axios.get('/by-pasture');
+        const returnedData = response.data.data;
+        const returnedGroups = returnedData.map((group) => group[0].pastureId);
+        //asserts
+        expect(response.status).toBe(200);
+        expect(response.data.message).toBe('animals by pastured listed');
+        expect(returnedData[0][0]._id).toMatch(/^[0-9a-fA-F]{24}$/);
+        expect(returnedGroups).toStrictEqual(pasturesIds);
+      },
+      time
+    );
+    it(
+      'GET get animals vaccinated by pasture successfully',
+      async () => {
+        //arrange
+        const animalOne = { ...animalsMock[1], isVaccinated: false, pastureId:1 };
+        const animalTwo =  { ...animalsMock[2], isVaccinated: true, pastureId:1 };
+        const animalThree = { ...animalsMock[3], isVaccinated: true, pastureId:2 };
+        const animals = [animalOne, animalTwo, animalThree];
+        await repository.createMany(collection, animals);
+        //act
+        const response = await axios.get('/is-vaccinated');
+        const returnedData = response.data.data;
+        console.log(returnedData)
+        //asserts
+        expect(response.status).toBe(200);
+        expect(response.data.message).toBe('animals vaccinated listed');
+        expect(returnedData[0][0]._id).toMatch(/^[0-9a-fA-F]{24}$/);
+        expect(returnedData[0][0].isVaccinated).toBe(true);
+        expect(returnedData[1][0].isVaccinated).toBe(true);
       },
       time
     );
