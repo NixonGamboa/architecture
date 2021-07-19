@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { config } = require('../config/index');
-const animalsApi = require('./routes/animals');
+const animalsApi = require('./controller/animals-routes');
 const { logErrors, errorHandler } = require('./utils/middleware/errorHandlers');
 
 app.use(express.json());

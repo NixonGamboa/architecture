@@ -1,11 +1,11 @@
 const express = require('express');
-const animalsService = require('../services/animals');
+const animalsService = require('../services/animals-services');
 
 const {
   animalIdSchema,
   createAnimalSchema,
   vaccinateAnimalSchema,
-} = require('../utils/schemas/animals');
+} = require('../utils/schemas/animals-schemas');
 const validationHandler = require('../utils/middleware/validationHandler');
 
 function animalsApi(app) {
