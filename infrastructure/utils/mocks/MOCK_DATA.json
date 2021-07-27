@@ -1,0 +1,10 @@
+[{"id":{"$oid":"60e7af4efc13ae39aa000000"},"especie":"Pied kingfisher","color":"Maroon","potreroId":"75a4d6d2-7a41-4beb-bcc5-f755f9608975","genero":"Male"},
+{"id":{"$oid":"60e7af4efc13ae39aa000001"},"especie":"Lizard (unidentified)","color":"Khaki","potreroId":"9efc6245-1851-4182-a66a-ea5fe7f3e299","genero":"Male"},
+{"id":{"$oid":"60e7af4efc13ae39aa000002"},"especie":"Owl, white-browed","color":"Indigo","potreroId":"442b6004-6956-4a10-b0f5-e62ecb7a16d9","genero":"Female"},
+{"id":{"$oid":"60e7af4efc13ae39aa000003"},"especie":"Deer, black-tailed","color":"Pink","potreroId":"757f27bf-5010-487c-aeac-3632be5e5c2a","genero":"Male"},
+{"id":{"$oid":"60e7af4efc13ae39aa000004"},"especie":"European stork","color":"Violet","potreroId":"de5730b0-cd48-41a5-8640-2eb51a23d658","genero":"Female"},
+{"id":{"$oid":"60e7af4efc13ae39aa000005"},"especie":"Blue racer","color":"Aquamarine","potreroId":"ac4782fb-fbc0-4e22-b526-fb8a2de763c8","genero":"Female"},
+{"id":{"$oid":"60e7af4efc13ae39aa000006"},"especie":"Short-beaked echidna","color":"Aquamarine","potreroId":"23c14e37-f031-4808-bd9e-f4ff03936a9b","genero":"Female"},
+{"id":{"$oid":"60e7af4efc13ae39aa000007"},"especie":"Steller's sea lion","color":"Orange","potreroId":"6174f0bb-f251-4489-bbd2-f875306a9723","genero":"Male"},
+{"id":{"$oid":"60e7af4efc13ae39aa000008"},"especie":"Shrike, southern white-crowned","color":"Indigo","potreroId":"9e41c8b0-e23d-491f-9acb-82fd63b7e9d5","genero":"Male"},
+{"id":{"$oid":"60e7af4efc13ae39aa000009"},"especie":"Emu","color":"Green","potreroId":"ca02bdd2-832d-4e81-a3c4-8b626d3806ab","genero":"Female"}]
